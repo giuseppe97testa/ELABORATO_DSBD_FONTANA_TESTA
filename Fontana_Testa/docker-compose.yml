@@ -1,0 +1,44 @@
+version: '3.2'
+
+services:
+  etl_data_pipeline:
+    build:
+        context: . # path relativo da cui lancio il docker-compose verso il Dockerfile
+        dockerfile: etl.Dockerfile 
+    restart: 
+        always
+    ports:
+      - "5000:5000"
+  
+  data_storage:
+    build:
+        context: . # path relativo da cui lancio il docker-compose verso il Dockerfile
+        dockerfile: datastorage.Dockerfile 
+    restart: 
+          always
+
+  data_retrieval:
+    build:
+        context: . # path relativo da cui lancio il docker-compose verso il Dockerfile
+        dockerfile: dataretrieval.Dockerfile 
+    restart: 
+          always
+    ports:
+      - "5005:5005"
+
+  sla_manager:
+    build:
+        context: . # path relativo da cui lancio il docker-compose verso il Dockerfile
+        dockerfile: sla.Dockerfile 
+    restart: 
+          always
+    ports:
+      - "5002:5002"
+      
+networks:
+  default:
+    external:
+      name: monitoring
+
+      
+
